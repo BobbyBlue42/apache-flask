@@ -114,7 +114,8 @@ var sensorColor = {
             id: nodeId,
             status: 'activated'
         });
-        $.post('/', {command: 'Activate Node', node: nodeId});
+        label = nodes.get(nodeId).label;
+        $.post('/', {command: 'Activate Node', node: label});
     }
 
     function deactivateNode(nodeId){
@@ -123,7 +124,8 @@ var sensorColor = {
             id: nodeId,
             status: 'deactive'
         });
-        $.post('/', {command: 'Deactivate Node', node: nodeId});
+        label = nodes.get(nodeId).label;
+        $.post('/', {command: 'Deactivate Node', node: label});
     }
 
     //Set specific node color
