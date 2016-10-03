@@ -94,4 +94,4 @@ def internal_error(error):
 def not_found(error):
 	return make_response(jsonify( { 'error': 'Not found' } ), 404)
 
-poller = threading.Thread(target=pollMsg, args = (inCommands,))
+#poller = threading.Thread(target=pollMsg, args = (inCommands,))

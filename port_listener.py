@@ -55,6 +55,8 @@ class PortHandler:
 		#Connect to socket
 		while recv_conn == None:
 			self.recv_socket.bind((self.host, self.recv_port))
+			self.recv_socket.setblocking(1)
+			self.recv_socket.settimeout(5000)
 			self.recv_socket.listen(1)
 			recv_conn, recv_adr = self.recv_socket.accept()
 		print 'recv connected'
@@ -80,6 +82,8 @@ class PortHandler:
 		#Connect to port
 		while send_conn == None:
 			self.send_socket.bind((self.host, self.send_port))
+			self.send_socket.setblocking(1)
+			self.send_socket.settimeout(5000)
 			self.send_socket.listen(1)
 			send_conn, send_adr = self.send_socket.accept()
 		print 'send connected'
