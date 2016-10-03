@@ -31,8 +31,8 @@ RECV_PORT = 8083
 conn = None
 adr = None
 
-port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
-port_handler.startListener()
+#port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
+#port_handler.startListener()
 
 def sendMsg(msg):
 	port_handler.add_command(msg)
