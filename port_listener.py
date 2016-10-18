@@ -20,9 +20,10 @@ class PortHandler:
 		self.command_queue = Queue.Queue()
 		self.r_command_queue = Queue.Queue()
 		self.connected = False
-
 		self.send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.recv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.send_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+		self.recv_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 	def add_command(self, cmd):
 		"""Add a command to the queue.

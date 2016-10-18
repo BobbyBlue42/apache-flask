@@ -31,21 +31,23 @@ RECV_PORT = 8083
 conn = None
 adr = None
 
-#port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
-#port_handler.startListener()
+port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
+port_handler.startListener()
 
 def sendMsg(msg):
-	port_handler.add_command(msg)
+	print 'Send msg'
+	#port_handler.add_command(msg)
 
 def pollMsg(commandQueue):
-	while(true):
-		cmd = port_handler.get_command()
-		if cmd:
-			print cmd
-			commandQueue.put(cmd)
-		else:
-			print 'No Command'
-		sleep(1)
+	print 'Get cmd'
+	# while(true):
+	# 	cmd = port_handler.get_command()
+	# 	if cmd:
+	# 		print cmd
+	# 		commandQueue.put(cmd)
+	# 	else:
+	# 		print 'No Command'
+	# 	sleep(1)
 	
 
 #-----------------------------------

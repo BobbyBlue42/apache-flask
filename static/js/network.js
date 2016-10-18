@@ -28,8 +28,8 @@ var sensorColor = {
 
         // create an array with edges
         edgesArray = [
-            {id: '1', from: '1', to: '2', status: 'deactive' },
-            {id: '2', from: '2', to: '3', status: 'deactive' }
+            // {id: '1', from: '1', to: '2', status: 'deactive' },
+            // {id: '2', from: '2', to: '3', status: 'deactive' }
         ];
         edges = new vis.DataSet(edgesArray);
 
