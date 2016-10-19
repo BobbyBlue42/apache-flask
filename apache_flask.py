@@ -36,6 +36,8 @@ adr = None
 
 def sendMsg(msg):
 	print 'Send msg'
+	out_file = open("./tmp/network_output_buffer", 'a')
+	out_file.write(msg + "\n")
 	#port_handler.add_command(msg)
 
 def pollMsg(commandQueue):

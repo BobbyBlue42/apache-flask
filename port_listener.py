@@ -1,4 +1,4 @@
-import serial, socket, threading, Queue, time
+import serial, socket, threading, Queue, time, requests
 
 HOST = ''                 # Symbolic name meaning all available interfaces
 SEND_PORT = 8082              # Arbitrary non-privileged port
@@ -35,7 +35,9 @@ class PortHandler:
 		Args:
 			cmd: the command to be added to the queue
 		"""
-		self.command_queue.put(cmd)
+		#self.command_queue.put(cmd)
+		out_file = open("./tmp/network_output_buffer", 'a')
+		out_file.write(cmd + "\n")
 
 	def get_command(self):
 		"""Gets received command.
@@ -69,11 +71,13 @@ class PortHandler:
 		recieved = None
 		while(True):
 			print 'loop listener'
-			if not self.r_command_queue.empty():
-				print self.r_command_queue.get()
+			#if not self.r_command_queue.empty():
+			#	print self.r_command_queue.get()
 			recieved = recv_conn.recv(1024)
 			if recieved:
-				self.r_command_queue.put(recieved)
+				r = requests.post("localhost", data={'command' : recieved})
+				print(r.status_code, r.reason)
+				#self.r_command_queue.put(recieved)
 			recieved = None
 
 	def send(self, send_conn):
@@ -84,6 +88,11 @@ class PortHandler:
 		Args:
 			send_conn:
 		"""
+		#Setup command file
+		cmd_file = open('./tmp/network_output_buffer', 'w')
+		cmd_file.write("")
+		cmd_file.close()
+		cmd_file = open('./tmp/network_output_buffer', 'r')
 		#Connect to port
 		while send_conn == None:
 			self.send_socket.bind((self.host, self.send_port))
@@ -94,9 +103,13 @@ class PortHandler:
 		print 'send connected'
 		#Send comands from queue
 		while True:
-			print 'loop sender'
-			cmd = self.command_queue.get(True)
-			send_conn.sendall(cmd)
+			cmd = None
+			cmd = cmd_file.readline()
+			#cmd = self.command_queue.get(True)
+			if(cmd):
+				send_conn.sendall(cmd)
+#			cmd = self.command_queue.get(True)
+#			send_conn.sendall(cmd)
 
 	def startListener(self):
 		"""Start threads.
