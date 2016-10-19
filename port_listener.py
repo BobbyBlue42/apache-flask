@@ -74,8 +74,9 @@ class PortHandler:
 			#if not self.r_command_queue.empty():
 			#	print self.r_command_queue.get()
 			recieved = recv_conn.recv(1024)
-			if recieved:
-				r = requests.post("localhost", data={'command' : recieved})
+			if recieved != '':
+				r = requests.post("http://localhost:80", data={'command' : recieved})
+				print("command", recieved)
 				print(r.status_code, r.reason)
 				#self.r_command_queue.put(recieved)
 			recieved = None
