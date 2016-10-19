@@ -61,23 +61,22 @@ def index():
 @app.route('/standardMode', methods=['POST', 'GET'])
 def standardMode():
 	if request.method == 'POST':
-		if request.form['command'] == 'Activate Node':
-			#sendMsg('Activate Node: ' + request.form['node'])
-			node = request.form['node'].upper()
-			sendMsg('~'+node+'*0')
-			return render_template('index.html')
-		elif request.form['command'] == 'Deactivate Node':
-			#sendMsg('Deactivate Node: ' + request.form['node'])
-			node = request.form['node'].upper()
-			sendMsg('~'+node+'*0')
-			return render_template('index.html')
-		elif request.form['submit'] == 'Ping-Pong':
+		# if request.form['command'] == 'Activate Node':
+		# 	#sendMsg('Activate Node: ' + request.form['node'])
+		# 	node = request.form['node'].upper()
+		# 	sendMsg('~'+node+'*0')
+		# 	return render_template('index.html')
+		# elif request.form['command'] == 'Deactivate Node':
+		# 	#sendMsg('Deactivate Node: ' + request.form['node'])
+		# 	node = request.form['node'].upper()
+		# 	sendMsg('~'+node+'*0')
+		# 	return render_template('index.html')
+		if request.form['submit'] == 'Ping-Pong':
 			print('\n')
 			print '***************** Ping-Pong ******************'
 			print('\n')
 			print 'WRITE PING'
 			sendMsg('PING')
-			msg = pollMsg()
 			print 'PING PONG'
 			return render_template('standardMode.html', nodes=nodes,
 									sensors=sensors)
