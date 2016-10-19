@@ -132,8 +132,5 @@ h.startListener()
 print "STARTED LISTENER"
 count = 0
 while(True):
-	print "SEND TEST CMD"
-	h.add_command("TEST CMD ")
-	cout = count + 1
 	time.sleep(1)
 print "EXITED"
