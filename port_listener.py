@@ -1,5 +1,9 @@
 import serial, socket, threading, Queue, time
 
+HOST = ''                 # Symbolic name meaning all available interfaces
+SEND_PORT = 8082              # Arbitrary non-privileged port
+RECV_PORT = 8083
+
 class PortHandler:
 	"""A serial port / socker handler.
 
@@ -107,3 +111,15 @@ class PortHandler:
 		sender.daemon = True
 		listener.start()
 		sender.start()
+
+print "STARTED"
+h = PortHandler(HOST, SEND_PORT, RECV_PORT)
+h.startListener()
+print "STARTED LISTENER"
+count = 0
+while(True):
+	print "SEND TEST CMD"
+	h.add_command("TEST CMD ")
+	cout = count + 1
+	time.sleep(1)
+print "EXITED"

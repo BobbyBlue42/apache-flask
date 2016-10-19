@@ -19,7 +19,7 @@
 <body>
     <div id="wrapper">
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar snavbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <a class="navbar-brand" href="{{ url_for('index') }}">Zombie Animatronics Server</a>
             </div><!-- /.navbar-header -->            
@@ -81,9 +81,9 @@
                                     <i class="glyphicon glyphicon-play-circle"></i> Controls
                                 </div>    
                                 <div class="list-group">
-                                    <form method="POST">
+                                    <!-- <form method="POST">
                                         <input id="pingpong" type="submit" name="submit" value="Ping-Pong">
-                                    </form>
+                                    </form> -->
                                     <button onClick="toggleCurrentNode();" type="button" class=" btn btn-block btn-info">Toggle Node</button>
                                     <button type="button" class=" btn btn-block btn-success">Start</button>
                                     <button type="button" class=" btn btn-block btn-danger">Stop</button>
