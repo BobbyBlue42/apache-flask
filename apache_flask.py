@@ -31,9 +31,11 @@ RECV_PORT = 8083
 conn = None
 adr = None
 
+port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
+port_handler.startListener()
+
 def sendMsg(msg):
-	out_file = open("./tmp/network_output_buffer", 'a')
-	out_file.write(msg + "\n")
+	print 'Send msg'
 	#port_handler.add_command(msg)
 
 def pollMsg(commandQueue):

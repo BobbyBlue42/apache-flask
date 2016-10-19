@@ -84,12 +84,6 @@ class PortHandler:
 		Args:
 			send_conn:
 		"""
-		#Setup command file
-		cmd_file = open('./tmp/network_output_buffer', 'w')
-		cmd_file.write("")
-		cmd_file.close()
-		cmd_file = open('./tmp/network_output_buffer', 'r')
-		
 		#Connect to port
 		while send_conn == None:
 			self.send_socket.bind((self.host, self.send_port))
@@ -101,11 +95,8 @@ class PortHandler:
 		#Send comands from queue
 		while True:
 			print 'loop sender'
-			cmd = None
-			cmd = cmd_file.readline()
-			#cmd = self.command_queue.get(True)
-			if(cmd):
-				send_conn.sendall(cmd)
+			cmd = self.command_queue.get(True)
+			send_conn.sendall(cmd)
 
 	def startListener(self):
 		"""Start threads.
@@ -124,5 +115,11 @@ class PortHandler:
 print "STARTED"
 h = PortHandler(HOST, SEND_PORT, RECV_PORT)
 h.startListener()
+print "STARTED LISTENER"
+count = 0
 while(True):
-	time.sleep(0.001)
+	print "SEND TEST CMD"
+	h.add_command("TEST CMD ")
+	cout = count + 1
+	time.sleep(1)
+print "EXITED"
