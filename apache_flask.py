@@ -7,7 +7,7 @@
 
 from flask import Flask, make_response, render_template, jsonify, request
 
-import serial, socket, port_listener, Queue, threading
+import serial, socket, Queue, threading
 
 app = Flask(__name__)
 
@@ -19,7 +19,7 @@ nodes = Device.query.filter_by(d_type='Node').order_by(Device.label).all()
 sensors = Device.query.filter_by(d_type='Sensor').order_by(Device.label).all()
 
 from commontools import log
-import serial, time, port_listener
+import serial, time
 
 #Commands from external sensors and nodes
 inCommands = Queue.Queue()
