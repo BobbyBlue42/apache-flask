@@ -7,7 +7,7 @@
 
 from flask import Flask, make_response, render_template, jsonify, request
 
-import serial, socket, port_listener
+import serial, socket, Queue, threading
 
 app = Flask(__name__)
 
@@ -19,7 +19,10 @@ nodes = Device.query.filter_by(d_type='Node').order_by(Device.label).all()
 sensors = Device.query.filter_by(d_type='Sensor').order_by(Device.label).all()
 
 from commontools import log
-import serial, time, port_listener
+import serial, time
+
+#Commands from external sensors and nodes
+inCommands = Queue.Queue()
 
 #Setup sockets
 HOST = ''                 # Symbolic name meaning all available interfaces
@@ -28,19 +31,25 @@ RECV_PORT = 8083
 conn = None
 adr = None
 
-port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
-port_handler.startListener()
+#port_handler = port_listener.PortHandler(HOST, SEND_PORT, RECV_PORT)
+#port_handler.startListener()
 
 def sendMsg(msg):
-	port_handler.add_command(msg)
+	print 'Send msg'
+	out_file = open("./tmp/network_output_buffer", 'a')
+	out_file.write(msg + "\n")
+	#port_handler.add_command(msg)
 
-def pollMsg():
-	cmd = port_handler.get_command()
-	if cmd:
-		print cmd
-	else:
-		print 'No Command'
-	return cmd
+def pollMsg(commandQueue):
+	print 'Get cmd'
+	# while(true):
+	# 	cmd = port_handler.get_command()
+	# 	if cmd:
+	# 		print cmd
+	# 		commandQueue.put(cmd)
+	# 	else:
+	# 		print 'No Command'
+	# 	sleep(1)
 	
 
 #-----------------------------------
@@ -52,19 +61,22 @@ def index():
 @app.route('/standardMode', methods=['POST', 'GET'])
 def standardMode():
 	if request.method == 'POST':
-		if request.form['command'] == 'Activate Node':
-			sendMsg('Activate Node: ' + request.form['node'])
-			return render_template('index.html')
-		elif request.form['command'] == 'Deactivate Node':
-			sendMsg('Deactivate Node: ' + request.form['node'])
-			return render_template('index.html')
-		elif request.form['submit'] == 'Ping-Pong':
+		# if request.form['command'] == 'Activate Node':
+		# 	#sendMsg('Activate Node: ' + request.form['node'])
+		# 	node = request.form['node'].upper()
+		# 	sendMsg('~'+node+'*0')
+		# 	return render_template('index.html')
+		# elif request.form['command'] == 'Deactivate Node':
+		# 	#sendMsg('Deactivate Node: ' + request.form['node'])
+		# 	node = request.form['node'].upper()
+		# 	sendMsg('~'+node+'*0')
+		# 	return render_template('index.html')
+		if request.form['submit'] == 'Ping-Pong':
 			print('\n')
 			print '***************** Ping-Pong ******************'
 			print('\n')
 			print 'WRITE PING'
 			sendMsg('PING')
-			msg = pollMsg()
 			print 'PING PONG'
 			return render_template('standardMode.html', nodes=nodes,
 									sensors=sensors)
@@ -85,3 +97,4 @@ def internal_error(error):
 def not_found(error):
 	return make_response(jsonify( { 'error': 'Not found' } ), 404)
 
+#poller = threading.Thread(target=pollMsg, args = (inCommands,))
