@@ -38,7 +38,6 @@ def find_coordinater():
     for port in ports:
         if "USB Serial Port" in port[1]:
             com_port = port[0]
-    print '====== COM PORT : {} ======'.format(com_port)
     return com_port
 
 def log_to_file(node, speed, direction, received):
@@ -57,7 +56,7 @@ def log_to_file(node, speed, direction, received):
     with open('server_command_log.txt', 'a') as log_file:
         log_file.write(log)
 
-def send_command(com, speed, direction):
+def send_command(com, speed, direction, node):
     """Send a command over the network.
 
     Sends a command over the network containing the nodes name to identify
@@ -71,7 +70,7 @@ def send_command(com, speed, direction):
         direction: the direction the node should be travelling in.
     """    
     port = serial.Serial(com, baudrate=9600, timeout=0)
-    node = 'BELLE'
+    # node = 'BELLE'
     command = '~{}*{}*{}*#'.format(node, direction, speed)
     port.write(command)
     node_response = ''
@@ -79,7 +78,6 @@ def send_command(com, speed, direction):
     # to send the full message before reading it.
     time.sleep(1)
     node_response = port.readline()
-    print node_response
     direction_name = ''
     if direction == '21':
         direction_name = 'Forward'
