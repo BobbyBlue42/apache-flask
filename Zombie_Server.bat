@@ -1,1 +1,1 @@
-cd Python\Scripts && activate && cd .. && cd .. && python runserver.py
+python runserver.py
